@@ -13,6 +13,7 @@ A Blender add-on to back up specified folders from a Baldur's Gate 3 (BG3) `/Dat
 - **Optional Zipping**: Compresses the backup folder into a `.zip` file if selected.
 - **Detailed Logging**: Creates a `backup_log_<project>.txt` file with backup details (source, destination, copied folders, timestamp).
 - **User-Friendly Interface**: A collapsible subpanel in Blender’s Properties > Output > Output, marked with a custom icon.
+![bg3_project_backup (3)](https://github.com/user-attachments/assets/2468de98-eb0f-4647-98a6-e905b26a4e2e)
 
 ## Installation
 1. **Download the Add-on**:
@@ -52,51 +53,24 @@ A Blender add-on to back up specified folders from a Baldur's Gate 3 (BG3) `/Dat
    - Matching folders are copied to the destination (e.g., `E:\MyBackups\BG3_Backups\MyMod_1234-5678-9012_Export_Data\`).
    - A log file (`backup_log_<project>.txt`) is created in the backup folder with details.
    - If “Zip Backup” is checked, a `.zip` file (e.g., `MyMod_1234-5678-9012_Export_Data.zip`) is saved in `E:\MyBackups\BG3_Backups\`.
+![bg3_project_backup (2)](https://github.com/user-attachments/assets/b8b957ed-f18f-4227-8d51-5b0ceb47fee6)
 
 4. **Check Results**:
    - Success: A message shows the number of folders backed up and the log file path.
    - Warning: If no matching folders are found, a warning appears.
    - Error: Invalid paths or empty project names trigger error messages.
+![bg3_project_backup (1)](https://github.com/user-attachments/assets/eb532e60-2886-4eb5-946f-2d50a4cfb69f)
 
 ## Output
 - **Backup Folder**: `<user_path>\BG3_Backups\<ProjectName_UUID>_Export_Data\`, containing copied folders.
 - **Log File**: `backup_log_<project>.txt`, detailing the backup process (timestamp, source, destination, copied folders).
 - **Zip File** (if enabled): `<user_path>\BG3_Backups\<ProjectName_UUID>_Export_Data.zip`.
-
-## Custom Icon
-The add-on uses a custom 32x32 PNG icon (`bg3_backup_icon.png`) displayed next to the subpanel title. To replace it:
-1. Create a new 32x32 PNG.
-2. Name it `bg3_backup_icon.png` and place it in the add-on folder.
-3. Reinstall the add-on or update the `.zip`.
+![bg3_project_backup (4)](https://github.com/user-attachments/assets/2a503bcb-78ac-4e39-9eeb-b5c6afaf07fc)
 
 ## Compatibility
 - Tested with Blender 4.1.1 (including custom builds like SSGI Native 1.17r).
 - Minimum Blender version: 3.0.0.
 - Designed for Windows (uses `\` paths). Contact the author for cross-platform support.
-
-## Troubleshooting
-- **Add-on Not Loading**:
-  - Check the System Console (`Window > Toggle System Console`) for errors like `Error registering BG3 Mod Kit Project Backup`.
-  - Ensure the `.zip` or `.py` is correctly installed.
-  - Restart Blender and re-enable.
-- **Subpanel Missing**:
-  - Verify you’re in Properties > Output > Output.
-  - Expand the “Output” panel.
-  - Confirm the add-on is enabled.
-- **Icon Missing**:
-  - Check the System Console for “Custom icon not found”.
-  - Ensure `bg3_backup_icon.png` is in the add-on folder.
-- **Backup Fails**:
-  - Ensure the source path points to a valid `/Data` directory.
-  - Check that the project name and destination path are valid.
-  - Review the Blender UI for error messages.
-
-## Version History
-- **1.4**: Added custom icon (`bg3_backup_icon.png`) and `.zip` packaging support.
-- **1.3**: Added README.md, maintained subpanel with icosphere icon.
-- **1.2**: Switched to `MESH_ICOSPHERE` icon for subpanel.
-- **1.1**: Added icon support (`FILE_BACKUP`) and versioning.
-- **1.0**: Initial release with backup, zipping, and subpanel in Properties > Output.
 
 ## License
 This add-on is provided as-is. Feel free to modify and distribute under your preferred terms.
