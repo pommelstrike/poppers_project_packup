@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pommelstrike's BG3 Data Backup Tool</title>
+    <title>Popper's Project Packup Tool by pommelstrike</title>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script defer src="/app.js"></script>
     <style>
@@ -118,14 +118,14 @@
 </head>
 <body>
     <header>
-        <h1>pommelstrike's BG3 Data Backup Tool</h1>
-        <p>Back up specified folders from your Baldur's Gate 3 `\Baldurs Gate 3\Data` directory and download as a zip file.</p>
+        <h1>Popper's Project Packup Tool by pommelstrike</h1>
+        <p>Back up your modkit project "ProjectName_UUID" automatically from the various sub-folders from your Baldur's Gate 3 <code>\Baldurs Gate 3\Data\</code> directory and download as a zip file.</p>
     </header>
     <main>
         <div id="backupForm">
             <label for="target-folder">Project Name (e.g., ProjectName_UUID)</label>
             <input type="text" id="target-folder" placeholder="Enter project name">
-            <label for="source-root">\Baldurs Gate 3\Data\ Folder Path</label>
+            <label for="source-root"><code>\Baldurs Gate 3\Data\</code> Folder Path</label>
             <button type="button" id="select-source">Select Folder</button>
             <input type="text" id="source-root" readonly placeholder="Select source folder">
             <button type="button" id="run-backup">Run .Zip Packup</button>
