@@ -119,20 +119,20 @@
 <body>
     <header>
         <h1>pommelstrike's BG3 Data Backup Tool</h1>
-        <p>Back up specified folders from your Baldur's Gate 3 /Data directory and download as a zip file.</p>
+        <p>Back up specified folders from your Baldur's Gate 3 `\Baldurs Gate 3\Data` directory and download as a zip file.</p>
     </header>
     <main>
         <div id="backupForm">
             <label for="target-folder">Project Name (e.g., ProjectName_UUID)</label>
             <input type="text" id="target-folder" placeholder="Enter project name">
-            <label for="source-root">BG3 \Data\ Folder</label>
+            <label for="source-root">\Baldurs Gate 3\Data\ Folder Path</label>
             <button type="button" id="select-source">Select Folder</button>
             <input type="text" id="source-root" readonly placeholder="Select source folder">
-            <button type="button" id="run-backup">Run Backup</button>
+            <button type="button" id="run-backup">Run .Zip Packup</button>
         </div>
         <div id="treeDisplay" style="display: none;"></div>
         <a id="downloadButton" aria-label="Download Backup Zip" title="Download Backup Zip">
-            <i class="fas fa-download"></i> Download Backup Zip
+            <i class="fas fa-download"></i> Download Packup Zip
         </a>
         <div id="statusMessage"></div>
         <p id="patreonMessage">
@@ -144,7 +144,7 @@
         <div class="feature-block">
             <h4>BG3 Data Backup</h4>
             <ul>
-                <li><strong>Function:</strong> Backs up specified folders from a BG3 <code>/Data</code> directory into a downloadable zip file.</li>
+                <li><strong>Function:</strong> Backs up specified folders from a BG3 <code>\Baldurs Gate 3\Data\</code> directory into a downloadable zip file.</li>
                 <li><strong>Key Actions:</strong>
                     <ul>
                         <li>Searches for folders matching the provided project name in predefined subdirectories (e.g., <code>Mods</code>, <code>Public</code>).</li>
