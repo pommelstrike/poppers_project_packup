@@ -1,8 +1,10 @@
 # pommelstrike's BG3 Data Backup Tool
 
-A web-based tool to back up specified BG3 Mod ToolKit Project folders from your Baldur's Gate 3 `/Data` directory. Select a source folder and project name, view a tree structure of the backed-up folders, and download them as a zip file with a detailed log. Built with a sleek, dark-themed UI inspired by [pommelstrike's BeholderEye Tool](https://github.com/pommelstrike/BeholderEye).
+A web-based tool to back up specified BG3 Mod ToolKit Project folders from your Baldur's Gate 3 `/Data` directory. Select a source folder and project name, view a tree structure of the backed-up folders, and download them as a zip file with a detailed log. 
 
-**Live Demo**: [https://bg3-backup-tool.vercel.app](https://bg3-backup-tool.vercel.app) (Deployed on Vercel)
+Simular to other vercel app [pommelstrike's BeholderEye Tool](https://github.com/pommelstrike/BeholderEye) 
+
+**Live Site**: [https://bg3-backup-tool.vercel.app](https://bg3-backup-tool.vercel.app) (Deployed on Vercel)
 
 ## Features
 
