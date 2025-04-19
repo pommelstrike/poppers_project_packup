@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popper's Project Packup Tool by pommelstrike</title>
+    <title>pommelstrike's BG3 Data Backup Tool</title>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script defer src="/app.js"></script>
     <style>
@@ -82,6 +82,11 @@
         #backupForm button:hover {
             background-color: #4a5433;
         }
+        #backupForm button:disabled {
+            background-color: #4a5433;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
         #backupForm label {
             font-weight: bold;
         }
@@ -114,26 +119,54 @@
             font-family: monospace;
             color: #e0e0e0;
         }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #252525;
+            color: #e0e0e0;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Popper's Project Packup Tool by pommelstrike</h1>
-        <p>This is completely ran local on your computer's browser! there is no uploading at all</p>
-        <p>Locally Back up your modkit project "ProjectName_UUID" automatically from the sub-folders from your Baldur's Gate 3 <code>\Baldurs Gate 3\Data\</code> directory path and packages it as a zip file.</p>
+        <h1>pommelstrike's BG3 Data Backup Tool</h1>
+        <p>Back up your BG3 Mod Tool Kit Project folders , spread out through from your Baldur's Gate 3 /Data directory and download as a zip file.</p>
     </header>
     <main>
         <div id="backupForm">
-            <label for="target-folder">Project Name (e.g., ProjectName_UUID)</label>
+            <label for="target-folder">Input Project Name (e.g., ProjectName_UUID,Ie:" MyFirstMod_aec51918-0986-31b2-4ba4-7b36b0daafd2 ")</label>
             <input type="text" id="target-folder" placeholder="Enter project name">
-            <label for="source-root"><code>\Baldurs Gate 3\Data\</code> Folder Path</label>
+            <label for="source-root">BG3 \Data\ Folder</label>
             <button type="button" id="select-source">Select Folder</button>
             <input type="text" id="source-root" readonly placeholder="Select source folder">
-            <button type="button" id="run-backup">Run .Zip Packup</button>
+            <div class="tooltip">
+                <span class="tooltiptext">Browsers restrict access to full file paths for security. Ensure the selected folder is your BG3 /Data directory (e.g., C:\SteamLibrary\steamapps\common\Baldurs Gate 3\Data).</span>
+                <input type="checkbox" id="local-confirm"> I allow this app to run locally within my browser
+            </div>
+            <button type="button" id="run-backup" disabled>Run Backup</button>
         </div>
         <div id="treeDisplay" style="display: none;"></div>
         <a id="downloadButton" aria-label="Download Backup Zip" title="Download Backup Zip">
-            <i class="fas fa-download"></i> Download Packup Zip
+            <i class="fas fa-download"></i> Download Backup Zip
         </a>
         <div id="statusMessage"></div>
         <p id="patreonMessage">
@@ -145,10 +178,10 @@
         <div class="feature-block">
             <h4>BG3 Data Backup</h4>
             <ul>
-                <li><strong>Function:</strong> Backs up specified folders from a BG3 <code>\Baldurs Gate 3\Data\</code> directory into a downloadable zip file.</li>
+                <li><strong>Function:</strong> Backs up specified folders from a BG3 <code>/Data</code> directory into a downloadable zip file.</li>
                 <li><strong>Key Actions:</strong>
                     <ul>
-                        <li>Searches for folders matching the provided project name in \data\ subdirectories (e.g., <code>Projects</code>,<code>Editor</code>,<code>Mods</code>,<code>Public</code>)etc</li>
+                        <li>Searches for folders matching the provided project name in predefined subdirectories (e.g., <code>Mods</code>, <code>Public</code>).</li>
                         <li>Displays a tree structure of the backed-up folders on the page.</li>
                         <li>Generates a log file detailing the backup process.</li>
                         <li>Zips the backed-up folders and log file for download.</li>
