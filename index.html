@@ -42,7 +42,7 @@
         }
         .feature-block {
             background-color: #252525;
-            border: 1px solid #5f6d45;
+            border: 1px solid #3262e3;
             border-radius: 8px;
             padding: 20px;
             margin: 20px auto;
@@ -68,22 +68,22 @@
         }
         #backupForm input, #backupForm button {
             padding: 10px;
-            border: 1px solid #5f6d45;
+            border: 1px solid #3262e3;
             border-radius: 4px;
             font-size: 16px;
             background-color: #252525;
             color: #e0e0e0;
         }
         #backupForm button {
-            background-color: #5f6d45;
+            background-color: #3262e3;
             border: none;
             cursor: pointer;
         }
         #backupForm button:hover {
-            background-color: #4a5433;
+            background-color: #254bb3;
         }
         #backupForm button:disabled {
-            background-color: #4a5433;
+            background-color: #254bb3;
             cursor: not-allowed;
             opacity: 0.6;
         }
@@ -92,12 +92,12 @@
         }
         #statusMessage {
             margin-top: 20px;
-            color: #5f6d45;
+            color: #3262e3;
         }
         #downloadButton {
             display: none;
             padding: 10px 20px;
-            background-color: #5f6d45;
+            background-color: #3262e3;
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -105,11 +105,11 @@
             margin-top: 20px;
         }
         #downloadButton:hover {
-            background-color: #4a5433;
+            background-color: #254bb3;
         }
         #treeDisplay {
             background-color: #252525;
-            border: 1px solid #5f6d45;
+            border: 1px solid #3262e3;
             border-radius: 8px;
             padding: 20px;
             margin: 20px auto;
@@ -149,18 +149,18 @@
 <body>
     <header>
         <h1>pommelstrike's BG3 Data Backup Tool</h1>
-        <p>Back up your BG3 Mod Tool Kit Project folders , spread out through from your Baldur's Gate 3 /Data directory and download as a zip file.</p>
+        <p>Back up specified folders from your Baldur's Gate 3 /Data directory and download as a zip file.</p>
     </header>
     <main>
         <div id="backupForm">
-            <label for="target-folder">Input Project Name (e.g., ProjectName_UUID,Ie:" MyFirstMod_aec51918-0986-31b2-4ba4-7b36b0daafd2 ")</label>
+            <label for="target-folder">Project Name (e.g., ProjectName_UUID)</label>
             <input type="text" id="target-folder" placeholder="Enter project name">
-            <label for="source-root">Find your BG3 "\Data" Folder</label>
-            <button type="button" id="select-source">Select [SteamLibrary\steamapps\common\Baldurs Gate 3\Data] Folder</button>
+            <label for="source-root">BG3 \Data\ Folder</label>
+            <button type="button" id="select-source">Select Folder</button>
             <input type="text" id="source-root" readonly placeholder="Select source folder">
             <div class="tooltip">
-                <span class="tooltiptext">Browsers restrict access to full file paths for security. Ensure the selected folder is your BG3 /Data directory (e.g., C:\SteamLibrary\steamapps\common\Baldurs Gate 3\Data).</span>
-                <input type="checkbox" id="local-confirm"> I allow this app to run locally within my browser
+                <span class="tooltiptext">Browsers restrict access to full file paths for security. Ensure the selected folder is your BG3 /Data directory. The input will show "Ready for Packup!" when all inputs are complete.</span>
+                <input type="checkbox" id="local-confirm"> I confirm this app runs locally in my browser
             </div>
             <button type="button" id="run-backup" disabled>Run Backup</button>
         </div>
