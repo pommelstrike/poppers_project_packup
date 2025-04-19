@@ -4,7 +4,7 @@ A web-based tool to back up specified BG3 Mod ToolKit Project folders from your 
 
 Simular to other vercel app [pommelstrike's BeholderEye Tool](https://github.com/pommelstrike/BeholderEye) 
 
-**Live Site**:
+**Live Site**: https://poppers-project-packup.vercel.app/
 
 ## Features
 
@@ -18,7 +18,7 @@ Simular to other vercel app [pommelstrike's BeholderEye Tool](https://github.com
 - **Browser**: Google Chrome or Microsoft Edge (File System Access API is not supported in Firefox/Safari as of April 2025).
   
 1. **Open the App**:
-   - Access the deployed site at [https://bg3-backup-tool.vercel.app](https://bg3-backup-tool.vercel.app) or run locally (`npm start`).
+   - Access the deployed site at [https://bg3-backup-tool.vercel.app](https://bg3-backup-tool.vercel.app) or run locally (`npm start`).](https://poppers-project-packup.vercel.app/)
 
 2. **Select Source Folder**:
    - Click “Select Folder” next to “BG3 \Data\ Folder” and choose your Baldur's Gate 3 `/Data` directory.
