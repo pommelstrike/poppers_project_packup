@@ -4,7 +4,7 @@ A web-based tool to back up specified BG3 Mod ToolKit Project folders from your 
 
 Simular to other vercel app [pommelstrike's BeholderEye Tool](https://github.com/pommelstrike/BeholderEye) 
 
-**Live Site**: [https://bg3-backup-tool.vercel.app](https://bg3-backup-tool.vercel.app) (Deployed on Vercel)
+**Live Site**:
 
 ## Features
 
