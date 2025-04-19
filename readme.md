@@ -1,4 +1,5 @@
 # pommelstrike's BG3 Data Backup Tool
+![poppers_coffee_1](https://github.com/user-attachments/assets/9c4dab42-2884-4400-9c70-079091ca6722)
 
 A web-based tool to back up specified BG3 Mod ToolKit Project folders from your Baldur's Gate 3 `/Data` directory. Select a source folder and project name, view a tree structure of the backed-up folders, and download them as a zip file with a detailed log. 
 
