@@ -1,6 +1,6 @@
 # pommelstrike's BG3 Data Backup Tool
 
-A web-based tool to back up specified folders from your Baldur's Gate 3 `/Data` directory. Select a source folder and project name, view a tree structure of the backed-up folders, and download them as a zip file with a detailed log. Built with a sleek, dark-themed UI inspired by [pommelstrike's BeholderEye Tool](https://github.com/pommelstrike/BeholderEye).
+A web-based tool to back up specified BG3 Mod ToolKit Project folders from your Baldur's Gate 3 `/Data` directory. Select a source folder and project name, view a tree structure of the backed-up folders, and download them as a zip file with a detailed log. Built with a sleek, dark-themed UI inspired by [pommelstrike's BeholderEye Tool](https://github.com/pommelstrike/BeholderEye).
 
 **Live Demo**: [https://bg3-backup-tool.vercel.app](https://bg3-backup-tool.vercel.app) (Deployed on Vercel)
 
@@ -18,32 +18,6 @@ A web-based tool to back up specified folders from your Baldur's Gate 3 `/Data` 
 ## Prerequisites
 
 - **Browser**: Google Chrome or Microsoft Edge (File System Access API is not supported in Firefox/Safari as of April 2025).
-- **Node.js**: Required for local development and deployment (version 16 or higher recommended).
-- **Vercel CLI**: For deploying to Vercel (optional if using the Vercel dashboard).
-- **Git**: For cloning the repository and pushing to GitHub.
-
-## Installation
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/pommelstrike/bg3-backup-tool.git
-   cd bg3-backup-tool
-   ```
-
-2. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Run Locally**:
-   ```bash
-   npm start
-   ```
-   - Opens `http://localhost:3000` in your browser.
-   - Use Chrome/Edge for full functionality.
-
-## Usage
-
 1. **Open the App**:
    - Access the deployed site at [https://bg3-backup-tool.vercel.app](https://bg3-backup-tool.vercel.app) or run locally (`npm start`).
 
