@@ -7,17 +7,26 @@ function initializeApp() {
     const statusMessage = document.getElementById("statusMessage");
     const downloadButton = document.getElementById("downloadButton");
     const treeDisplay = document.getElementById("treeDisplay");
+    const projectList = document.getElementById("projectList");
+    const targetFolderInput = document.getElementById("target-folder");
 
     let sourceHandle = null;
+    let selectedProject = null;
+
+    // Enable Run Backup button when both source and project are selected
+    function updateRunBackupButton() {
+        runBackup.disabled = !(sourceHandle && (selectedProject || targetFolderInput.value.trim()));
+    }
 
     // Handle folder selection
-    async function selectFolder(inputId) {
+    async function selectFolder() {
         try {
             const dirHandle = await window.showDirectoryPicker();
-            // Display only the folder name clearly
-            document.getElementById(inputId).value = `Selected: ${dirHandle.name}`;
-            statusMessage.textContent = `Selected folder: ${dirHandle.name}`;
+            statusMessage.textContent = `Selected Data folder: ${dirHandle.name}`;
             statusMessage.style.color = "#5f6d45";
+            sourceHandle = dirHandle;
+            await populateProjectList();
+            updateRunBackupButton();
             return dirHandle;
         } catch (err) {
             statusMessage.textContent = `Error selecting folder: ${err.message}`;
@@ -26,22 +35,83 @@ function initializeApp() {
         }
     }
 
+    // Populate project list from Mods subdirectory
+    async function populateProjectList() {
+        if (!sourceHandle) return;
+
+        projectList.innerHTML = "";
+        projectList.style.display = "none";
+
+        try {
+            const modsHandle = await sourceHandle.getDirectoryHandle("Mods", { create: false });
+            const projects = [];
+
+            for await (const entry of modsHandle.values()) {
+                if (entry.kind === "directory" && entry.name.match(/.*_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)) {
+                    projects.push(entry.name);
+                }
+            }
+
+            if (projects.length > 0) {
+                projects.sort(); // Sort alphabetically for consistency
+                const listHtml = projects
+                    .map(
+                        (project, index) => `
+                            <label>
+                                <input type="radio" name="project" value="${project}" ${index === 0 ? "checked" : ""}>
+                                ${project}
+                            </label>
+                        `
+                    )
+                    .join("");
+                projectList.innerHTML = `<h4>Select a Project</h4>${listHtml}`;
+                projectList.style.display = "block";
+                selectedProject = projects[0]; // Default to first project
+                targetFolderInput.value = selectedProject; // Auto-fill input
+            } else {
+                statusMessage.textContent = "No project folders found in Mods directory.";
+                statusMessage.style.color = "#fff3cd";
+            }
+        } catch (err) {
+            statusMessage.textContent = "Mods directory not found or inaccessible.";
+            statusMessage.style.color = "#fff3cd";
+        }
+
+        updateRunBackupButton();
+    }
+
     selectSource.addEventListener("click", async () => {
-        sourceHandle = await selectFolder("source-root");
+        await selectFolder();
+    });
+
+    // Handle project selection from radio buttons
+    projectList.addEventListener("change", (event) => {
+        if (event.target.type === "radio") {
+            selectedProject = event.target.value;
+            targetFolderInput.value = selectedProject;
+            updateRunBackupButton();
+        }
+    });
+
+    // Update button state when target folder input changes
+    targetFolderInput.addEventListener("input", () => {
+        selectedProject = null; // Clear radio selection if user types manually
+        projectList.querySelectorAll('input[type="radio"]').forEach((radio) => (radio.checked = false));
+        updateRunBackupButton();
     });
 
     // Handle backup processing
     runBackup.addEventListener("click", async () => {
-        const targetFolderName = document.getElementById("target-folder").value.trim();
+        const targetFolderName = targetFolderInput.value.trim() || selectedProject;
 
         // Validate inputs
         if (!sourceHandle) {
-            statusMessage.textContent = "Please select a source folder.";
+            statusMessage.textContent = "Please select a Data folder.";
             statusMessage.style.color = "#f8d7da";
             return;
         }
         if (!targetFolderName) {
-            statusMessage.textContent = "Please enter a project name.";
+            statusMessage.textContent = "Please enter a project name or select one from the list.";
             statusMessage.style.color = "#f8d7da";
             return;
         }
