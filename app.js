@@ -7,27 +7,17 @@ function initializeApp() {
     const statusMessage = document.getElementById("statusMessage");
     const downloadButton = document.getElementById("downloadButton");
     const treeDisplay = document.getElementById("treeDisplay");
-    const localConfirm = document.getElementById("local-confirm");
 
     let sourceHandle = null;
-
-    // Enable/disable Run Backup button based on checkbox -remove in next update
-    localConfirm.addEventListener("change", () => {
-        runBackup.disabled = !localConfirm.checked;
-        if (!localConfirm.checked) {
-            statusMessage.textContent = "Please confirm the app runs locally to proceed.";
-            statusMessage.style.color = "#f8d7da";
-        } else {
-            statusMessage.textContent = "";
-        }
-    });
 
     // Handle folder selection
     async function selectFolder(inputId) {
         try {
             const dirHandle = await window.showDirectoryPicker();
-            // Display folder name with a placeholder path due to browser restrictions
-            document.getElementById(inputId).value = `${dirHandle.name} (e.g., C:\\...\\Baldurs Gate 3\\${dirHandle.name})`;
+            // Display only the folder name clearly
+            document.getElementById(inputId).value = `Selected: ${dirHandle.name}`;
+            statusMessage.textContent = `Selected folder: ${dirHandle.name}`;
+            statusMessage.style.color = "#5f6d45";
             return dirHandle;
         } catch (err) {
             statusMessage.textContent = `Error selecting folder: ${err.message}`;
@@ -42,12 +32,6 @@ function initializeApp() {
 
     // Handle backup processing
     runBackup.addEventListener("click", async () => {
-        if (!localConfirm.checked) {
-            statusMessage.textContent = "Please confirm the app runs locally to proceed.";
-            statusMessage.style.color = "#f8d7da";
-            return;
-        }
-
         const targetFolderName = document.getElementById("target-folder").value.trim();
 
         // Validate inputs
@@ -122,7 +106,7 @@ function initializeApp() {
                 treeDisplay.textContent = treeLines.join('\n');
                 treeDisplay.style.display = "block";
 
-                // Generate zip - this was broken
+                // Generate zip
                 const zipContent = await zip.generateAsync({ type: 'blob' });
                 const url = URL.createObjectURL(zipContent);
                 downloadButton.href = url;
@@ -146,7 +130,7 @@ function initializeApp() {
         }
     });
 
-    // Utility functions 
+    // Utility functions
     function getUtcTimestamp() {
         const now = new Date();
         const year = now.getUTCFullYear();
