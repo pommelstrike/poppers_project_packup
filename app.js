@@ -11,7 +11,7 @@ function initializeApp() {
 
     let sourceHandle = null;
 
-    // Enable/disable Run Backup button based on checkbox
+    // Enable/disable Run Backup button based on checkbox -remove in next update
     localConfirm.addEventListener("change", () => {
         runBackup.disabled = !localConfirm.checked;
         if (!localConfirm.checked) {
@@ -71,6 +71,7 @@ function initializeApp() {
         let treeLines = [`${backupFolderName}/`];
         const zip = new JSZip();
         const zipRoot = zip.folder(backupFolderName);
+        const processedPaths = new Set(); // Track processed folder paths
 
         try {
             // Search for target folders
@@ -79,6 +80,7 @@ function initializeApp() {
                     let currentHandle = sourceHandle;
                     const pathParts = subdir ? subdir.split('/').filter(p => p) : [];
                     
+                    // Navigate to subdirectory
                     for (const part of pathParts) {
                         currentHandle = await currentHandle.getDirectoryHandle(part, { create: false });
                         if (!currentHandle) break;
@@ -88,9 +90,14 @@ function initializeApp() {
                         const targetHandle = await currentHandle.getDirectoryHandle(targetFolderName, { create: false });
                         if (targetHandle) {
                             const relativePath = subdir ? `${subdir}/${targetFolderName}` : targetFolderName;
-                            foldersBackedUp.push({ src: relativePath, dest: `${backupFolderName}/${relativePath}` });
-                            treeLines.push(`  ${relativePath}/`);
-                            await addFolderToZip(zipRoot, targetHandle, relativePath);
+                            
+                            // Skip if already processed
+                            if (!processedPaths.has(relativePath)) {
+                                processedPaths.add(relativePath);
+                                foldersBackedUp.push({ src: relativePath, dest: `${backupFolderName}/${relativePath}` });
+                                treeLines.push(`  ${relativePath}/`);
+                                await addFolderToZip(zipRoot.folder(relativePath), targetHandle, '');
+                            }
                         }
                     }
                 } catch (err) {
@@ -115,7 +122,7 @@ function initializeApp() {
                 treeDisplay.textContent = treeLines.join('\n');
                 treeDisplay.style.display = "block";
 
-                // Generate zip
+                // Generate zip - this was broken
                 const zipContent = await zip.generateAsync({ type: 'blob' });
                 const url = URL.createObjectURL(zipContent);
                 downloadButton.href = url;
@@ -139,7 +146,7 @@ function initializeApp() {
         }
     });
 
-    // Utility functions
+    // Utility functions 
     function getUtcTimestamp() {
         const now = new Date();
         const year = now.getUTCFullYear();
@@ -151,16 +158,16 @@ function initializeApp() {
         return `${year}${month}${day}_${hours}${minutes}${seconds}`;
     }
 
-    async function addFolderToZip(zip, dirHandle, path) {
+    async function addFolderToZip(zipFolder, dirHandle, path) {
         for await (const entry of dirHandle.values()) {
             const entryPath = path ? `${path}/${entry.name}` : entry.name;
             if (entry.kind === 'file') {
                 const fileHandle = await dirHandle.getFileHandle(entry.name);
                 const file = await fileHandle.getFile();
-                zip.file(entryPath, await file.arrayBuffer());
+                zipFolder.file(entry.name, await file.arrayBuffer());
             } else if (entry.kind === 'directory') {
                 const newDirHandle = await dirHandle.getDirectoryHandle(entry.name);
-                const newZipFolder = zip.folder(entryPath);
+                const newZipFolder = zipFolder.folder(entry.name);
                 await addFolderToZip(newZipFolder, newDirHandle, entryPath);
             }
         }
