@@ -90,6 +90,22 @@
         #backupForm label {
             font-weight: bold;
         }
+        #projectList {
+            background-color: #252525;
+            border: 1px solid #3262e3;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            display: none;
+        }
+        #projectList label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        #projectList input[type="radio"] {
+            margin-right: 10px;
+        }
         #statusMessage {
             margin-top: 20px;
             color: #3262e3;
@@ -119,31 +135,6 @@
             font-family: monospace;
             color: #e0e0e0;
         }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: help;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 300px;
-            background-color: #252525;
-            color: #e0e0e0;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -150px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
@@ -153,15 +144,12 @@
     </header>
     <main>
         <div id="backupForm">
-            <label for="target-folder">Project Name (e.g., ProjectName_UUID)</label>
-            <input type="text" id="target-folder" placeholder="Enter project name">
-            <label for="source-root">BG3 \Data\ Folder</label>
+            <label for="select-source">Select your Baldur’s Gate 3 Data folder (e.g., L:\SteamLibrary\steamapps\common\Baldurs Gate 3\Data)</label>
             <button type="button" id="select-source">Select Folder</button>
-            <div class="tooltip">
-                <span class="tooltiptext">Select the Baldur's Gate 3 /Data directory. The selected folder name will be displayed below.</span>
-                <input type="text" id="source-root" readonly placeholder="Select source folder">
-            </div>
-            <button type="button" id="run-backup">Run Backup</button>
+            <div id="projectList"></div>
+            <label for="target-folder">Project Name (e.g., ProjectName_UUID, or select from above)</label>
+            <input type="text" id="target-folder" placeholder="Enter project name or select from list">
+            <button type="button" id="run-backup" disabled>Run Backup</button>
         </div>
         <div id="treeDisplay" style="display: none;"></div>
         <a id="downloadButton" aria-label="Download Backup Zip" title="Download Backup Zip">
