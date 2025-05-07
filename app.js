@@ -117,8 +117,12 @@ function initializeApp() {
         }
 
         statusMessage.textContent = "Processing backup... Please wait.";
-        const sanitizedName = targetFolderName.replace(/\s+/g, '_').replace(/:/g, '_');
-        const backupFolderName = `${sanitizedName}_Export_Data`;
+
+        // Extract ProjectName (before last underscore) and sanitize
+        const projectName = targetFolderName.substring(0, targetFolderName.lastIndexOf('_')).replace(/\s+/g, '_').replace(/:/g, '_');
+        const timestamp = getUtcTimestamp();
+        const backupFolderName = `${projectName}_${timestamp}_Export_Data`;
+
         const subdirsToCheck = ['', 'Editor/Mods', 'Generated/Public', 'Mods', 'Projects', 'Public'];
 
         let foldersBackedUp = [];
@@ -126,6 +130,7 @@ function initializeApp() {
         const zip = new JSZip();
         const zipRoot = zip.folder(backupFolderName);
         const processedPaths = new Set(); // Track processed folder paths
+        const markdownTree = [`\`\`\`\n${backupFolderName}/`]; // For markdown log
 
         try {
             // Search for target folders
@@ -145,12 +150,14 @@ function initializeApp() {
                         if (targetHandle) {
                             const relativePath = subdir ? `${subdir}/${targetFolderName}` : targetFolderName;
                             
+25
                             // Skip if already processed
                             if (!processedPaths.has(relativePath)) {
                                 processedPaths.add(relativePath);
                                 foldersBackedUp.push({ src: relativePath, dest: `${backupFolderName}/${relativePath}` });
                                 treeLines.push(`  ${relativePath}/`);
-                                await addFolderToZip(zipRoot.folder(relativePath), targetHandle, '');
+                                const folderTree = await addFolderToZip(zipRoot.folder(relativePath), targetHandle, '', 1);
+                                markdownTree.push(...folderTree.map(line => `  ${line}`));
                             }
                         }
                     }
@@ -159,18 +166,22 @@ function initializeApp() {
                 }
             }
 
+            // Close markdown tree
+            markdownTree.push('```');
+
             // Generate and add log file
             if (foldersBackedUp.length > 0) {
                 const logContent = [
-                    `Backup Log - ${new Date().toISOString()}`,
-                    `Target Folder: ${targetFolderName}`,
-                    `Backup Destination: ${backupFolderName}`,
+                    `# Backup Log for ${projectName}`,
+                    `- Backup Date: ${new Date().toISOString()}`,
+                    `- Project Folder: ${targetFolderName}`,
+                    `- Backup Destination: ${backupFolderName}`,
                     '',
-                    'Collected Folders:',
-                    ...foldersBackedUp.map(f => `${f.src} -> ${f.dest}`)
+                    '## Backed Up Folder Structure',
+                    ...markdownTree
                 ].join('\n');
 
-                zipRoot.file(`backup_log_${sanitizedName}.txt`, logContent);
+                zipRoot.file(`${projectName}_${timestamp}_Export_Data_Log.md`, logContent);
 
                 // Display tree
                 treeDisplay.textContent = treeLines.join('\n');
@@ -180,7 +191,7 @@ function initializeApp() {
                 const zipContent = await zip.generateAsync({ type: 'blob' });
                 const url = URL.createObjectURL(zipContent);
                 downloadButton.href = url;
-                downloadButton.download = `${backupFolderName}_${getUtcTimestamp()}.zip`;
+                downloadButton.download = `${backupFolderName}.zip`;
                 downloadButton.style.display = "block";
 
                 statusMessage.textContent = `Backed up ${foldersBackedUp.length} folder(s). Download the zip file below.`;
@@ -208,13 +219,16 @@ function initializeApp() {
         const day = String(now.getUTCDate()).padStart(2, '0');
         const hours = String(now.getUTCHours()).padStart(2, '0');
         const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-        const seconds = String(now.getUTCSeconds()).padStart(2, '0');
-        return `${year}${month}${day}_${hours}${minutes}${seconds}`;
+        return `${year}${month}${day}_${hours}${minutes}`;
     }
 
-    async function addFolderToZip(zipFolder, dirHandle, path) {
+    async function addFolderToZip(zipFolder, dirHandle, path, depth) {
+        const treeLines = [];
         for await (const entry of dirHandle.values()) {
             const entryPath = path ? `${path}/${entry.name}` : entry.name;
+            const indent = '│   '.repeat(depth - 1) + (depth > 0 ? '├── ' : '');
+            treeLines.push(`${indent}${entry.name}${entry.kind === 'directory' ? '/' : ''}`);
+            
             if (entry.kind === 'file') {
                 const fileHandle = await dirHandle.getFileHandle(entry.name);
                 const file = await fileHandle.getFile();
@@ -222,9 +236,11 @@ function initializeApp() {
             } else if (entry.kind === 'directory') {
                 const newDirHandle = await dirHandle.getDirectoryHandle(entry.name);
                 const newZipFolder = zipFolder.folder(entry.name);
-                await addFolderToZip(newZipFolder, newDirHandle, entryPath);
+                const subTree = await addFolderToZip(newZipFolder, newDirHandle, entryPath, depth + 1);
+                treeLines.push(...subTree.map(line => `${'│   '.repeat(depth)}${line}`));
             }
         }
+        return treeLines;
     }
 }
 
