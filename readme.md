@@ -27,18 +27,17 @@ Try our related tool: [pommelstrike's BeholderEye Tool](https://github.com/pomme
    - Click “Select Folder” next to “BG3 \Data\ Folder” and choose your Baldur's Gate 3 `/Data` directory (e.g., `L:\SteamLibrary\steamapps\common\Baldurs Gate 3\Data`).
    - The input shows the folder name with a sample path. Hover over the confirmation checkbox for more info.
 
-3. **Enter Project Name**:
-   - Type your project folder name (e.g., `MyProject_UUID`) in the “Project Name” field.
+3. **Select your Project Name**:
+   - Click your project folder name (e.g., `MyProject_UUID`) in the “Project Name” field.
 
 4. **Confirm Local Execution**:
    - Check the “I confirm this app runs locally in my browser” checkbox to enable the “Run Backup” button.
 
 5. **Run Backup**:
    - Click “Run Backup” to start the process.
-   - The tool searches for your project folders in subdirectories like `Mods` and `Public`.
+   - The tool searches for your project folders in /Data subdirectories.
 
 6. **View Results**:
-   - **Tree Structure**: See a tree view (e.g., `MyProject_UUID_Export_Data/Mods/MyProject_UUID/`) on the page.
    - **Zip Download**: Click “Download Backup Zip” to get a zip file with your folders and a `backup_log_<project_name>.txt` log.
    - **Status Message**: Shows success, warnings (e.g., no folders found), or errors.
 
