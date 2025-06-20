@@ -47,12 +47,6 @@ Try our related tool: [pommelstrike's BeholderEye Tool](https://github.com/pomme
    - Use Chrome or Edge for folder selection.
    - Large folders may take a moment to zip.
 
-## Dependencies
-
-- **JSZip**: Creates zip files in your browser.
-- **Noto Sans Display**: Google Font for styling.
-- **Font Awesome**: Icons for download and Patreon links.
-
 ## Limitations
 
 - Works only in Chrome or Edge.
@@ -69,7 +63,7 @@ An offline version is available as a Blender add-on, perfect for users with BG3 
 
 ## Support
 
-If you find this tool useful, please consider supporting me on [Patreon](https://www.patreon.com/pommelstrike) to help create more BG3 tools and mods. Your support keeps the rage alive!
+If you find this tool useful, please consider supporting me on [Patreon](https://www.patreon.com/pommelstrike) to help create more BG3 tools and mods.
 
 ## License
 
